@@ -11,7 +11,7 @@ public class HelloExe {
 		int score = 100;
 		System.out.println("점수는 : "+score+" 입니다.");
 		
-		
+		System.out.println("수정된 부분");
 		
 	}
 	
