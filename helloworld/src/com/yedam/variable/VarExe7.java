@@ -34,7 +34,7 @@ public class VarExe7 {
 				
 				if (last_index != 0) { /* 같은 이름을 찾는 로직 */
 					for (int i = 0; i < last_index; i++) {
-						if (storage[i].name.equals(name)) {
+						if (storage[i].getName().equals(name)) {
 							System.out.println("같은 이름을 넣을 수 없습니다.");
 							break;
 						}
@@ -42,9 +42,9 @@ public class VarExe7 {
 				}
 				
 				Member addMember = new Member(); //인스턴스 생성
-				addMember.name = name;
-				addMember.score = score;
-				if (addMember.score < 0 || addMember.score > 100) {
+				addMember.setName(name);
+				addMember.setScore(score);
+				if (addMember.getScore() < 0 || addMember.getScore() > 100) {
 					System.out.println("점수가 올바르지 않습니다.");
 					break;
 				}
@@ -61,7 +61,7 @@ public class VarExe7 {
 				int modify_index = -1;
 				String modifyName = scn.nextLine();
 				for (int i = 0; i < last_index; i++) {
-					if (storage[i].name.equals(modifyName)) {
+					if (storage[i].getName().equals(modifyName)) {
 						modify_index = i;
 						break;
 					}
@@ -73,7 +73,7 @@ public class VarExe7 {
 						System.out.println("점수가 올바르지 않습니다.");
 						break;
 					}
-					storage[modify_index].score = modifyScore;
+					storage[modify_index].setScore(modifyScore);
 					System.out.println("성공적으로 수정이 되었습니다.");
 				} else {
 					System.out.println("이름을 찾을 수 없습니다.");
@@ -89,7 +89,7 @@ public class VarExe7 {
 				String removeName = scn.nextLine();
 				int removeIndex = -1;
 				for (int i = 0; i < last_index; i++) {
-					if (storage[i].name.equals(removeName)) {
+					if (storage[i].getName().equals(removeName)) {
 						removeIndex = i;
 					}
 				}
@@ -108,7 +108,7 @@ public class VarExe7 {
 			case 4: //출력
 				for (int i = 0; i < last_index; i++) {
 					Member element = storage[i];
-					System.out.println((i+1)+". "+element.name+":"+element.score);
+					System.out.println((i+1)+". "+element.getName()+":"+element.getScore());
 				}
 				break;
 			case 5:

@@ -7,8 +7,8 @@ package com.yedam.variable;
 // protected 자식도 사용가능
 public class Member {
 	//클래스: 필드(변수)
-	String name;
-	int score;
+	private String name;
+	private int score;
 	
 	//클래스: 메소드(기능)
 	public Member() { /* null */ }

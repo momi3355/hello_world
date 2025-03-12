@@ -35,16 +35,16 @@ public class VarExe6 {
 		Scanner scn = new Scanner(System.in);
 		//test();
 		Member m1 = new Member(); //인스턴스 생성.
-		m1.name = "이창현";
+		m1.setName("이창현");
 		
 		Member m2 = new Member(); //인스턴스 생성.
-		m2.name = "최민수";
+		m2.setName("최민수");
 		
 		Member m3 = new Member(); //인스턴스 생성.
-		m3.name = "김병수";
+		m3.setName("김병수");
 		
 		Member m4 = new Member(); //인스턴스 생성.
-		m4.name = "박인만";
+		m4.setName("박인만");
 		
 		//배열.
 		Member[] members = new Member[] {
@@ -56,15 +56,15 @@ public class VarExe6 {
 		int max = 0;
 		for (int i = 0; i < members.length; i++) {
 			Member element = members[i];
-			element.score = (int)(Math.random() * 30) + 70;
-			System.out.println(element.name+":"+element.score);
-			if (max == 0 || max < element.score) {
-				max = element.score;
+			element.setScore((int)(Math.random() * 30) + 70);
+			System.out.println(element.getName()+":"+element.getScore());
+			if (max == 0 || max < element.getScore()) {
+				max = element.getScore();
 				index = i;
 			}
 		}
 		//점수가 가장 높은 사람의 이름 출력.
-		System.out.println("점수가 가장높은 사람 : "+members[index].name);
+		System.out.println("점수가 가장높은 사람 : "+members[index].getName());
 		
 		// 조회하고 싶은 이름 입력 -> 점수 출력.
 		System.out.print("조회할 이름 입력.>_");
@@ -73,8 +73,8 @@ public class VarExe6 {
 			Member element = members[i];
 			// '==' 는 포인터 비교 연산자이기 때문에 같은 값이라도 포인터가 다르면 'false'가 나온다.
 			//그래서 값만 비교하는 equals()메소드를 사용해야한다.
-			if (element.name.equals(searchName) ) {
-				System.out.println(element.name+":"+element.score);
+			if (element.getName().equals(searchName) ) {
+				System.out.println(element.getName()+":"+element.getScore());
 			}
 		}
 		scn.close();
