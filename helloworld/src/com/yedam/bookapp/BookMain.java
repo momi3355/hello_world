@@ -11,6 +11,7 @@ public class BookMain {
 		REMOVE (3),
 		LIST   (4),
 		INFO   (5),
+		PUBLISH(6),
 		EXIT   (9);
 		
 		private final int value;
@@ -254,6 +255,24 @@ public class BookMain {
 		} else System.out.println("제목을 찾을 수 없습니다.");
 	}
 	
+	private void publishInfo() {
+		System.out.println("검색할 출판사");
+		System.out.print(">_");
+		String pub = scn.nextLine();
+		
+		int index = -1;
+		for (int i = 0; i < lastIndex; i++) {
+			if (bookStore[i].getPublisher().equals(pub)) {
+				System.out.println(bookStore[i].showList());
+				index = i;
+			}
+		}
+		
+		if (index == -1) {
+			System.out.println("출판사를 찾을 수 없습니다.");
+		}
+	}
+	
 	/**
 	 * <i>책 정보</i>({@code bookStore})를 리턴 하는 메소드.
 	 * @return <b>bookStore</b> 책 정보 배열
@@ -277,16 +296,17 @@ public class BookMain {
 	public void run() {
 		scn = new Scanner(System.in);
 		while(run) {
-			System.out.println("1.도서등록 2.수정 3.삭제 4.목록 5.상세조회 9.종료");
+			System.out.println("1.도서등록 2.수정 3.삭제 4.목록 5.상세조회 6.목록조회(출판사) 9.종료");
 			System.out.print("_>> ");
 			Menu menu = Menu.getValue(Integer.parseInt(scn.nextLine()));
 			
 			switch (menu) {
-			case ADD   : addBook()   ; break; //추가
-			case MODIY : modiyBook() ; break; //수정
-			case REMOVE: removeBook(); break; //삭제
-			case LIST  : listBook()  ; break; //목록
-			case INFO  : bookInfo()  ; break; //정보
+			case ADD    : addBook()    ; break; //추가
+			case MODIY  : modiyBook()  ; break; //수정
+			case REMOVE : removeBook() ; break; //삭제
+			case LIST   : listBook()   ; break; //목록
+			case INFO   : bookInfo()   ; break; //정보
+			case PUBLISH: publishInfo(); break; //출판사 정보
 			case EXIT: //종료
 				run = false;
 				break;
