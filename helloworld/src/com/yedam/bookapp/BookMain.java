@@ -195,6 +195,73 @@ public class BookMain {
 		} else System.out.println("제목을 찾을 수 없습니다.");
 	}
 	
+	private int[] getLength() {
+		return getLength(bookStore, lastIndex);
+	}
+	private int[] getLength(Book[] list, int index) {
+		int titleLength = 0;
+		int authorLength = 0;
+		
+		for (int i = 0; i < index; i++) {
+			Book b = list[i];
+			String title = b.getTitle();
+			String author = b.getAuthor();
+			
+			if (titleLength < title.length())   titleLength = title.length();
+			if (authorLength < author.length()) authorLength = author.length();
+		}
+		return new int[] { titleLength, authorLength };
+	}
+	
+	private String getTableHead() {
+		return getTableHead(getLength());
+	}
+	private String getTableHead(int[] length) {
+		int len = "제목".length();
+		String str = "순번";
+		str += "\t제목";
+		for (int i = len; i < length[0]; i++) str += " ";
+		str += "\t저자";
+		for (int i = 0; i < length[1]; i++) str += " ";
+		str += "\t가격";
+		System.out.println(str);
+		return str;
+	}
+	
+	private void showBook(Book[] list) {
+		int[] length = getLength();
+		String th = getTableHead(length);
+		//제목 == 저자 == 가격
+		String line = "=";
+		for (int i = 0; i < th.length()*1.6; i++) {
+			line += "=";
+		}
+
+		sort();
+		System.out.println(line);
+		for (Book b : list) {
+			System.out.println(b.getOrderNo()+"\t"
+					+ b.showList(length[0], length[1] + 2));
+		}
+		System.out.println(line);
+	}
+	
+	//listBook()와 publishInfo()에서 사용될 공통메소드.
+	private Book[] searchBook(String publish) {
+		int idx = 0;
+		int[] index = new int[lastIndex];
+		for (int i = 0; i < lastIndex; i++) {
+			if (publish == null || bookStore[i].getPublisher().equals(publish)) {
+				index[idx++] = i;
+			}
+		}
+		Book[] list = new Book[idx];
+		for (int i = 0; i < idx; i++) {
+			list[i] = bookStore[index[i]];
+		}
+		return list;
+	}
+	
 	/**
 	 * <i>책 정보</i>({@code bookStore})를 <b>console</b>에 출력하는 메소드.
 	 * @see Book
@@ -204,37 +271,7 @@ public class BookMain {
 			System.out.println("요소가 없습니다.");
 			return;
 		}
-		int titleLength = 0;
-		int authorLength = 0;
-		
-		for (int i = 0; i < lastIndex; i++) {
-			Book b = bookStore[i];
-			String title = b.getTitle();
-			String author = b.getAuthor();
-			
-			if (titleLength < title.length())   titleLength = title.length();
-			if (authorLength < author.length()) authorLength = author.length();
-		}
-		sort();
-		//제목 == 저자 == 가격
-		int len = "제목".length();
-		String str = "순번";
-		str += "\t제목";
-		for (int i = len; i < titleLength; i++) str += " ";
-		str += "\t저자";
-		for (int i = 0; i < authorLength; i++) str += " ";
-		str += "\t가격";
-		System.out.println(str);
-		String line = "=";
-		for (int i = 0; i < str.length()*1.6; i++) {
-			line += "=";
-		}
-		System.out.println(line);
-		for (int i = 0; i < lastIndex; i++) {
-			System.out.println(bookStore[i].getOrderNo()+"\t"
-					+ bookStore[i].showList(titleLength, authorLength + 2));
-		}
-		System.out.println(line);
+		showBook(searchBook(null));
 	}
 	
 	/**
@@ -256,19 +293,18 @@ public class BookMain {
 	}
 	
 	private void publishInfo() {
-		System.out.println("검색할 출판사");
-		System.out.print(">_");
+		if (lastIndex == 0) {
+			System.out.println("요소가 없습니다.");
+			return;
+		}
+		System.out.print("검색할 출판사");
+		System.out.print(" >_");
 		String pub = scn.nextLine();
 		
-		int index = -1;
-		for (int i = 0; i < lastIndex; i++) {
-			if (bookStore[i].getPublisher().equals(pub)) {
-				System.out.println(bookStore[i].showList());
-				index = i;
-			}
-		}
-		
-		if (index == -1) {
+		Book[] list = searchBook(pub);
+		if (list.length > 0) {
+			showBook(list);
+		} else {
 			System.out.println("출판사를 찾을 수 없습니다.");
 		}
 	}
