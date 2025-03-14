@@ -53,7 +53,6 @@ public class MethodExe2 {
 		}
 		return null;
 	}
-	
 	public Product[] getStore() {
 		return store;
 	}
@@ -77,7 +76,8 @@ public class MethodExe2 {
 			Product p = store[i];
 			if (p != null &&
 					//'ALL'이거나 이름이 같을 때.
-					("ALL".equalsIgnoreCase(prd.getName()) || p.getName().equals(prd.getName()))) {
+					("ALL".equalsIgnoreCase(prd.getName()) ||
+							p.getName().equals(prd.getName()) || p.getCode().equals(prd.getCode()))) {
 				if (p.getPrice() >= prd.getPrice()) {
 					list[list_idx++] = p;
 				}

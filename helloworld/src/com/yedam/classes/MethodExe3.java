@@ -33,7 +33,7 @@ public class MethodExe3 {
 		for (int i = 0; i < intArray.length; i++) {
 			int index = -1;
 			int ranNum = (int)(Math.random() * 16) + 1;
-			for (int j = 0; j < intArray.length; j++) {
+			for (int j = 0; j < i; j++) {
 				if (intArray[j] == ranNum) {
 					index = j;
 					break;

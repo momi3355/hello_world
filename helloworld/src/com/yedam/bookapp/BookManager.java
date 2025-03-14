@@ -3,7 +3,7 @@ package com.yedam.bookapp;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
-public class BookMain {
+public class BookManager {
 	private enum Menu {
 		NONE   (0),
 		ADD    (1),
@@ -32,13 +32,14 @@ public class BookMain {
 		}
 	}
 	private static final int MAX_BOOK = 100;
-	private static Scanner scn;
-	
+	private static BookManager instance;
+
+	private Scanner scn;
 	private Book[] bookStore;
 	private int lastIndex = 0;
 	private boolean run;
 	
-	public BookMain() {
+	private BookManager() {
 		bookStore = new Book[MAX_BOOK];
 		bookStore[0] = new BookBuilder("이것이 자바다.")
 				.setPublisher("한빛미디어")
@@ -66,6 +67,17 @@ public class BookMain {
 //				.setPrice(35000).build();
 		lastIndex = 4;
 		run = true;
+	}
+	
+	public static BookManager getInstance() {
+		if (instance == null) //생성되지 않았으면 생성.
+			instance = new BookManager();
+		return instance;
+	}
+	
+	public BookManager setup(Scanner s) {
+		scn = s;
+		return this;
 	}
 	
 	/**
@@ -103,7 +115,7 @@ public class BookMain {
 	 * <i>책 정보</i>({@code bookStore})를 추가하는 메소드.
 	 * @see Book
 	 */
-	private void addBook() {
+	void addBook() {
 		System.out.print("제목입력 >>_");
 		String addTitle = scn.nextLine();
 		if (addTitle.isBlank()) {
@@ -134,7 +146,7 @@ public class BookMain {
 	 * <i>책 정보</i>({@code bookStore})를 수정하는 메소드.
 	 * @see Book
 	 */
-	private void modiyBook() {
+	void modiyBook() {
 		if (lastIndex == 0) {
 			System.out.println("요소가 없습니다.");
 			return;
@@ -173,7 +185,7 @@ public class BookMain {
 	 * <i>책 정보</i>({@code bookStore})를 삭제하는 메소드.
 	 * @see Book
 	 */
-	private void removeBook() {
+	void removeBook() {
 		if (lastIndex == 0) {
 			System.out.println("요소가 없습니다.");
 			return;
@@ -266,7 +278,7 @@ public class BookMain {
 	 * <i>책 정보</i>({@code bookStore})를 <b>console</b>에 출력하는 메소드.
 	 * @see Book
 	 */
-	private void listBook() {
+	void listBook() {
 		if (lastIndex == 0) {
 			System.out.println("요소가 없습니다.");
 			return;
@@ -278,7 +290,7 @@ public class BookMain {
 	 * 책을 검색에서 상세정보를 출력하는 메소드.
 	 * @see Book
 	 */
-	private void bookInfo() {
+	void bookInfo() {
 		System.out.print("검색할 책 ");
 		int info_idx = findBook(bookStore, lastIndex, scn);
 		if (info_idx != -1) {
@@ -292,7 +304,7 @@ public class BookMain {
 		} else System.out.println("제목을 찾을 수 없습니다.");
 	}
 	
-	private void publishInfo() {
+	void publishInfo() {
 		if (lastIndex == 0) {
 			System.out.println("요소가 없습니다.");
 			return;
@@ -371,7 +383,7 @@ public class BookMain {
 		return findBook(bookStore, lastIndex, title);
 	}
 	
-	public static void main(String[] args) {
-		new BookMain().run();
-	}
+//	public static void main(String[] args) {
+//		new BookManager().run();
+//	}
 }

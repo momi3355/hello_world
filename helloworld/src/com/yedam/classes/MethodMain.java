@@ -1,6 +1,11 @@
 package com.yedam.classes;
 
 public class MethodMain {
+	
+	static void officeApp() {
+		new ProductManager().run();
+	}
+	
 	void method1() {
 		MethodExe1 mx1 = new MethodExe1();
 //		System.out.println(mx1);
@@ -54,10 +59,19 @@ public class MethodMain {
 		}
 	}
 	
-	public static void main(String[] args) {
+	void method3() {
 		MethodExe3 mx3 = new MethodExe3();
 //		System.out.println(mx3.gugudan(10, 100));
 		mx3.printStar(5, "*");
 		mx3.printCard();
+	}
+	
+	void method4() {
+		MethodExe4 mx4 = new MethodExe4();
+		mx4.main();
+	}
+	
+	public static void main(String[] args) {
+		officeApp();
 	}
 }
