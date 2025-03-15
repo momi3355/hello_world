@@ -9,10 +9,14 @@ public class BookApp {
 		BookManager bookapp1 = BookManager.getInstance().setup(scn);
 		BookManager bookapp2 = BookManager.getInstance().setup(scn);
 		
-		bookapp1.addBook();
-		bookapp1.listBook();
+//		bookapp1.addBook();
+//		bookapp1.listBook();
+//		
+//		bookapp2.listBook();
 		
-		bookapp2.listBook();
+		BookManager ba3 = BookManager.getInstance();
+		ba3.login(new User("root", "관리자", "root"));
+		ba3.run();
 		
 		scn.close();
 	}

@@ -34,39 +34,18 @@ public class BookManager {
 	private static final int MAX_BOOK = 100;
 	private static BookManager instance;
 
+   private Book[] bookStore;
+   private User[] userData;
+   
+   private User useUser;
 	private Scanner scn;
-	private Book[] bookStore;
 	private int lastIndex = 0;
-	private boolean run;
+	private boolean run = true;
 	
 	private BookManager() {
-		bookStore = new Book[MAX_BOOK];
-		bookStore[0] = new BookBuilder("이것이 자바다.")
-				.setPublisher("한빛미디어")
-				.setAuthor("신용권")
-				.setPrice(20000)
-				.setOrderNo(3).build();
-		bookStore[1] = new BookBuilder("쓰면서 익히는 알고리즘과 자료구조")
-				.setPublisher("한빛미디어")
-				.setAuthor("윤대석")
-				.setPrice(25000)
-				.setOrderNo(4).build();
-		bookStore[2] = new BookBuilder("파이썬 정복")
-				.setPublisher("한빛미디어")
-				.setAuthor("김상형")
-				.setPrice(20000)
-				.setOrderNo(1).build();
-		bookStore[3] = new BookBuilder("전문가를 위한C")
-				.setPublisher("한빛미디어")
-				.setAuthor("캄란 아미니")
-				.setPrice(50000)
-				.setOrderNo(2).build();
-//		bookStore[4] = new BookBuilder("게임 프로그래밍 패턴")
-//				.setPublisher("한빛미디어")
-//				.setAuthor("로버트 나이스트롬")
-//				.setPrice(35000).build();
-		lastIndex = 4;
-		run = true;
+	   setupUserData();
+	   setupBookStore();
+		lastIndex = bookStore.length;
 	}
 	
 	public static BookManager getInstance() {
@@ -75,9 +54,58 @@ public class BookManager {
 		return instance;
 	}
 	
+	private void setupUserData() {
+	   userData = new User[3];
+	   userData[0] = new User("user", "김유저", "user");
+      userData[1] = new User("test", "테스트", "test");
+      userData[2] = new User("root", "관리자", "root");
+	}
+	
+	private void setupBookStore() {
+	   bookStore = new Book[MAX_BOOK];
+	   bookStore[0] = new BookBuilder("이것이 자바다.")
+            .setPublisher("한빛미디어")
+            .setAuthor("신용권")
+            .setPrice(20000)
+            .setOrderNo(3).build();
+      bookStore[1] = new BookBuilder("쓰면서 익히는 알고리즘과 자료구조")
+            .setPublisher("한빛미디어")
+            .setAuthor("윤대석")
+            .setPrice(25000)
+            .setOrderNo(4).build();
+      bookStore[2] = new BookBuilder("파이썬 정복")
+            .setPublisher("한빛미디어")
+            .setAuthor("김상형")
+            .setPrice(20000)
+            .setOrderNo(1).build();
+      bookStore[3] = new BookBuilder("전문가를 위한C")
+            .setPublisher("한빛미디어")
+            .setAuthor("캄란 아미니")
+            .setPrice(50000)
+            .setOrderNo(2).build();
+//    bookStore[4] = new BookBuilder("게임 프로그래밍 패턴")
+//    .setPublisher("한빛미디어")
+//    .setAuthor("로버트 나이스트롬")
+//    .setPrice(35000).build();
+	}
+	
 	public BookManager setup(Scanner s) {
 		scn = s;
 		return this;
+	}
+	
+	public boolean login(String userId, String userName, String password) {
+	   return login(new User(userId, userName, password));
+	}
+	public boolean login(User user) {
+	   for (User item : userData) {
+	      if (item.equals(user)) {
+	         System.out.println("환영합니다. "+user.getUserName()+"님!");
+	         useUser = item;
+	         break;
+	      }
+	   }
+	   return useUser != null;
 	}
 	
 	/**
@@ -118,7 +146,7 @@ public class BookManager {
 	void addBook() {
 		System.out.print("제목입력 >>_");
 		String addTitle = scn.nextLine();
-		if (addTitle.isBlank()) {
+		if (addTitle.trim().length() == 0) {
 			System.out.println("책 제목을 입력하지 않았습니다.");
 			return;
 		} else if (findBook(bookStore, lastIndex, addTitle) != -1) {
@@ -342,6 +370,11 @@ public class BookManager {
 	 *   이 메소드는 <b>console</b>로 작동을 하여 <i>데이터</i>를 수정합니다.
 	 */
 	public void run() {
+	   if (useUser == null) {
+	      System.out.println("로그인을 하시기 바랍니다.");
+	      return;
+	   }
+	   
 		scn = new Scanner(System.in);
 		while(run) {
 			System.out.println("1.도서등록 2.수정 3.삭제 4.목록 5.상세조회 6.목록조회(출판사) 9.종료");
