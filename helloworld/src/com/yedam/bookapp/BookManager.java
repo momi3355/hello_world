@@ -34,31 +34,31 @@ public class BookManager {
 	private static final int MAX_BOOK = 100;
 	private static BookManager instance;
 
-   private Book[] bookStore;
-   private User[] userData;
+	private Book[] bookStore;
+	private User[] userData;
    
-   private User useUser;
+	private User useUser;
 	private Scanner scn;
 	private int lastIndex = 0;
-	private boolean run = true;
 	
 	private BookManager() {
 	   setupUserData();
 	   setupBookStore();
-		lastIndex = bookStore.length;
+	   lastIndex = 4;
 	}
 	
 	public static BookManager getInstance() {
 		if (instance == null) //생성되지 않았으면 생성.
 			instance = new BookManager();
+		instance.useUser = null; //사용자 초기화
 		return instance;
 	}
 	
 	private void setupUserData() {
 	   userData = new User[3];
 	   userData[0] = new User("user", "김유저", "user");
-      userData[1] = new User("test", "테스트", "test");
-      userData[2] = new User("root", "관리자", "root");
+	   userData[1] = new User("test", "테스트", "test");
+       userData[2] = new User("root", "관리자", "root");
 	}
 	
 	private void setupBookStore() {
@@ -89,23 +89,38 @@ public class BookManager {
 //    .setPrice(35000).build();
 	}
 	
-	public BookManager setup(Scanner s) {
+	public BookManager setup(String userId, String password) {
+		login(userId, password);
+		return this;
+	}
+	public BookManager setup(Scanner s, String userId, String password) {
 		scn = s;
+		login(userId, password);
 		return this;
 	}
 	
-	public boolean login(String userId, String userName, String password) {
-	   return login(new User(userId, userName, password));
+	private boolean login() {
+		System.out.print("id입력>>_");
+		String id = scn.nextLine();
+		System.out.print("pw입력>>_");
+		String pw = scn.nextLine();
+		return login(id, pw);
 	}
-	public boolean login(User user) {
-	   for (User item : userData) {
-	      if (item.equals(user)) {
-	         System.out.println("환영합니다. "+user.getUserName()+"님!");
-	         useUser = item;
-	         break;
-	      }
-	   }
-	   return useUser != null;
+	private boolean login(String userId, String password) {
+		String userName = "";
+		for (User item : userData)
+			if (item.getUserId().equals(userId) && item.getPassword().equals(password))
+				userName = item.getUserName();
+		return login(new User(userId, userName, password));
+	}
+	private boolean login(User user) {
+		for (User item : userData) {
+			if (item.equals(user)) {
+				useUser = item;
+				break;
+			}
+		}
+		return useUser != null;
 	}
 	
 	/**
@@ -370,33 +385,42 @@ public class BookManager {
 	 *   이 메소드는 <b>console</b>로 작동을 하여 <i>데이터</i>를 수정합니다.
 	 */
 	public void run() {
-	   if (useUser == null) {
-	      System.out.println("로그인을 하시기 바랍니다.");
-	      return;
-	   }
-	   
 		scn = new Scanner(System.in);
+		if (useUser == null) {
+			if (!login()) {
+				System.out.println("아이디 비밀번호 중에 확인 하세요.");
+				return;
+			}
+		} 
+		System.out.println("환영합니다. "+useUser.getUserName()+"님!");
+		
+		boolean run = true;
 		while(run) {
 			System.out.println("1.도서등록 2.수정 3.삭제 4.목록 5.상세조회 6.목록조회(출판사) 9.종료");
 			System.out.print("_>> ");
-			Menu menu = Menu.getValue(Integer.parseInt(scn.nextLine()));
-			
-			switch (menu) {
-			case ADD    : addBook()    ; break; //추가
-			case MODIY  : modiyBook()  ; break; //수정
-			case REMOVE : removeBook() ; break; //삭제
-			case LIST   : listBook()   ; break; //목록
-			case INFO   : bookInfo()   ; break; //정보
-			case PUBLISH: publishInfo(); break; //출판사 정보
-			case EXIT: //종료
-				run = false;
-				break;
-			default:
-				System.out.println("숫자를 잘못 입력하셨습니다.");
+			Menu menu = Menu.NONE;
+			try {
+				menu = Menu.getValue(Integer.parseInt(scn.nextLine()));
+				
+				switch (menu) {
+				case ADD    : addBook()    ; break; //추가
+				case MODIY  : modiyBook()  ; break; //수정
+				case REMOVE : removeBook() ; break; //삭제
+				case LIST   : listBook()   ; break; //목록
+				case INFO   : bookInfo()   ; break; //정보
+				case PUBLISH: publishInfo(); break; //출판사 정보
+				case EXIT: //종료
+					run = false;
+					break;
+				default:
+					System.out.println("숫자를 잘못 입력하셨습니다.");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("숫자를 입력하지 않았습니다.");
 			}
 		}
 		System.out.println("end of prog.");
-		scn.close();
+		//scn.close();
 	}
 	
 	private static int findBook(Book[] bookStore, int lastIndex, String title) {
