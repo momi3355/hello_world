@@ -1,5 +1,7 @@
 package com.yedam.variable;
 
+import java.util.Objects;
+
 //접근제한
 // public    아무나
 // default   패키지안에서
@@ -41,6 +43,23 @@ public class Member {
 	
 	public void showInfo() {
 		System.out.print(this);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, score);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Member other = (Member) obj;
+		return Objects.equals(name, other.name) && score == other.score;
 	}
 
 	@Override

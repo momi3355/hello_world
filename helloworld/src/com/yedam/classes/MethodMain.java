@@ -1,5 +1,7 @@
 package com.yedam.classes;
 
+import java.util.List;
+
 public class MethodMain {
 	
 	static void officeApp() {
@@ -50,13 +52,8 @@ public class MethodMain {
 		search.setName("지우개");
 		//search.setPrice(700); // >= 700;
 		
-		Product[] list = mx2.getStore(search);
-		for (int i = 0; i < list.length; i++) {
-			Product p = list[i];
-			if (p != null) {
-				System.out.println(p.showProduct());
-			}
-		}
+		List<Product> list = mx2.getStore(search);
+		list.forEach(p -> System.out.println(p.showProduct()));
 	}
 	
 	void method3() {

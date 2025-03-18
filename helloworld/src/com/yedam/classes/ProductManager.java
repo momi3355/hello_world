@@ -1,5 +1,6 @@
 package com.yedam.classes;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ProductManager {
@@ -15,7 +16,7 @@ public class ProductManager {
 	public void add() {
 		System.out.print("추가할 제품코드 >_");
 		String code = scn.nextLine();
-		if (store.getStore(new Product(code, null, 0))[0] != null) {
+		if (store.getStore(new Product(code, null, 0)).size() > 0) {
 			System.out.println("제품코드가 이미 존재합니다.");
 			return;
 		}
@@ -37,11 +38,12 @@ public class ProductManager {
 	public void modify() {
 		System.out.print("수정할 제품코드 >_");
 		String code = scn.nextLine();
-		Product modify = store.getStore(new Product(code, null, 0))[0];
-		if (modify == null) {
+		List<Product> list = store.getStore(new Product(code, null, 0));
+		if (list.isEmpty()) {
 			System.out.println("제품코드를 찾지 못했습니다.");
 			return;
 		}
+		Product modify = list.getFirst();
 		//무엇을 수정할줄 모르기때문에 기본정보를 먼저 삽입한다.
 		String name = modify.getName();
 		int price = modify.getPrice();
