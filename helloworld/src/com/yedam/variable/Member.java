@@ -64,6 +64,6 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "[name=" + name + ", score=" + score + "]\n";
+		return "[name=" + name + ", score=" + score + "]";
 	}
 }

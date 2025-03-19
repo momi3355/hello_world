@@ -1,6 +1,7 @@
 package com.yedam.bookapp;
 
 public class Book {
+	private String bookCode;
 	private String title;
 	private String author;
 	private String publisher;
@@ -23,6 +24,9 @@ public class Book {
 	}
 	public int getPrice() {
 		return price;
+	}
+	public String getBookCode() {
+		return bookCode;
 	}
 	public int getOrderNo() {
 		return orderNo;
@@ -47,12 +51,15 @@ public class Book {
 	void setPrice(int price) {
 		this.price = price;
 	}
+	void setBookCode(String bookCode) {
+		this.bookCode = bookCode;
+	}
 	void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
 	
 	public String showList() {
-		return title+"\t"+author+"\t"+price;
+		return bookCode+"\t"+title+"\t"+author+"\t"+price;
 	}
 	public String showList(int titleLength, int authorLength) {
 		String str = getTitle();
