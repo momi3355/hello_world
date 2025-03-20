@@ -1,5 +1,11 @@
 package com.yedam.classes;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +14,53 @@ public class MethodExe2 {
 	private List<Product> store = new ArrayList<Product>();
 	
 	public MethodExe2() {
-		store.add(new Product("A001", "지우개", 500));
-		store.add(new Product("A002", "지우개", 700));
-		store.add(new Product("B001", "샤프", 1000));
-		store.add(new Product("B002", "샤프", 1500));
-		store.add(new Product("C001", "연필", 500));
-		store.add(new Product("C002", "연필", 300));
+		init();
+//		store.add(new Product("A001", "지우개", 500));
+//		store.add(new Product("A002", "지우개", 700));
+//		store.add(new Product("B001", "샤프", 1000));
+//		store.add(new Product("B002", "샤프", 1500));
+//		store.add(new Product("C001", "연필", 500));
+//		store.add(new Product("C002", "연필", 300));
+	}
+	
+	public void init() {
+		try {
+			FileInputStream fis = new FileInputStream("c:/temp/object.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			Object source = ois.readObject();
+			
+			//source 타입 체크
+			if (source instanceof List) {
+				List<?> temp = ((List<?>)source);
+				for (int i = 0; i < temp.size(); i++) {
+					Object item = temp.get(i);
+					if (item instanceof Product)
+						store.add((Product)item);
+				}
+			}
+			ois.close(); fis.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("파일을 찾을 수 없습니다.");
+		} catch (IOException e) {
+			System.out.println("입출력 중에 애러가 발생했습니다.");
+		} catch (ClassNotFoundException e) {
+			System.out.println("객체를 찾을 수 없습니다.");
+		}
+	}
+	
+	// 종료시점에 store 정보를 message.txt에 저장
+	public void save() {
+		try {
+			FileOutputStream fos = new FileOutputStream("c:/temp/object.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(store);
+			oos.flush();
+			
+			fos.close(); oos.close();
+		} catch (IOException e) {
+			System.out.println("입출력 중 오류가 발생했습니다.");
+		}
 	}
 	
 	public boolean add(Product prd) {

@@ -1,9 +1,11 @@
 package com.yedam.classes;
 
+import java.io.Serializable;
+
 /*
  * 상품코드, 상품명, 가격
  */
-public class Product {
+public class Product implements Serializable {
 	private String code;
 	private String name;
 	private int price;

@@ -1,11 +1,21 @@
 package com.yedam.bookapp;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class BookApp {
 	public static void main(String[] args) {		
 		Scanner scn = new Scanner(System.in);
+		
+//		MemberJdbc mdao = new MemberJdbc();
+//		List<Map<String, String>> list = mdao.memberList();
+//		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//		String json = gson.toJson(list);
+//		System.out.println(json);
 		
 		
 		BookJdbc dao = new BookJdbc();

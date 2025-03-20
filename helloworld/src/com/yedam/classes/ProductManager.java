@@ -101,6 +101,8 @@ public class ProductManager {
 			case 4: remove()  ; break;
 			case 9:
 				run = false;
+				store.save();
+				System.out.println("저장이 되었습니다.");
 				break;
 			default:
 				System.out.println("숫자를 잘못 입력 하셨습니다.");

@@ -34,15 +34,15 @@ public class BookManager {
 	}
 	private static BookManager instance;
 
-	private User[] userData;
+	//private User[] userData;
 
 	//JDBC 처리.
 	private BookJdbc dao = new BookJdbc();
-	private User useUser;
+	private MemberJdbc mdao = new MemberJdbc(); 
+	private String useUser;
 	private Scanner scn;
 	
 	private BookManager() {
-	   setupUserData();
 	   //setupBookStore();
 	}
 	
@@ -51,13 +51,6 @@ public class BookManager {
 			instance = new BookManager();
 		instance.useUser = null; //사용자 초기화
 		return instance;
-	}
-	
-	private void setupUserData() {
-		userData = new User[3];
-		userData[0] = new User("user", "김유저", "user");
-		userData[1] = new User("test", "테스트", "test");
-		userData[2] = new User("root", "관리자", "root");
 	}
 	
 	private void setupBookStore() {
@@ -98,6 +91,10 @@ public class BookManager {
 		return this;
 	}
 	
+	public String getUserName() {
+		return useUser;
+	}
+	
 	private boolean login() {
 		System.out.print("id입력>>_");
 		String id = scn.nextLine();
@@ -106,20 +103,12 @@ public class BookManager {
 		return login(id, pw);
 	}
 	private boolean login(String userId, String password) {
-		String userName = "";
-		for (User item : userData)
-			if (item.getUserId().equals(userId) && item.getPassword().equals(password))
-				userName = item.getUserName();
-		return login(new User(userId, userName, password));
-	}
-	private boolean login(User user) {
-		for (User item : userData) {
-			if (item.equals(user)) {
-				useUser = item;
-				break;
-			}
+		String user_name = mdao.login(userId, password);
+		if (!user_name.isEmpty()) {
+			useUser = user_name;
+			return true;
 		}
-		return useUser != null;
+		return false;
 	}
 	
 	/**
@@ -274,7 +263,7 @@ public class BookManager {
 				return;
 			}
 		} 
-		System.out.println("환영합니다. "+useUser.getUserName()+"님!");
+		System.out.println("환영합니다. "+getUserName()+"님!");
 		
 		boolean run = true;
 		while(run) {
