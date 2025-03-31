@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,7 +53,8 @@ public class MainServlet extends HttpServlet{
 			for(BoardVO board : list) {
 				html += "<tr>";
 				html += "<td>" + board.getBoardNo() + "</td>";
-				html += "<td>" + board.getTitle() + "</td>";
+				html += "<td><a href='getBoard?board_no="+board.getBoardNo()+"'>" //서블릿으로 이동
+							   + board.getTitle() + "</a></td>";
 				html += "<td>" + board.getContent() + "</td>";
 				html += "<td>" + board.getWriter() + "</td>";
 				html += "<td>" + board.getWriteDate() + "</td>";

@@ -11,6 +11,7 @@
            content,
            write_date
     from tbl_board
+    order by board_no desc
   </select>
   <!-- 등록 -->
   <insert id="insertBoard" parameterType="board">
@@ -26,6 +27,12 @@
     </if>
     WHERE  board_no = #{boardNo} 
   </update>
+  <select id="selectOne" parameterType="int">
+  	SELECT board_no, title, content, writer, write_date
+  	FROM   tbl_board
+  	WHERE  board_no = #{boardNo}
+  </select>
+  <!-- 삭제 -->
   <delete id="deleteBoard" parameterType="int">
     DELETE FROM tbl_board
     WHERE board_no = #{boardNo} 
