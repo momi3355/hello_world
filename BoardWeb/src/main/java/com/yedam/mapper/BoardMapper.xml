@@ -4,19 +4,56 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.mapper.BoardMapper">
   <!-- 목록 -->
-  <select id="selectBoard" resultType="board">
-    select board_no,
-           title,
-           writer,
-           content,
-           write_date
-    from tbl_board
-    order by board_no desc
+  <select id="selectBoard" parameterType="search" resultType="board">
+    SELECT b.*
+    FROM (SELECT rownum rn, a.*
+          FROM (SELECT *
+                FROM   tbl_board
+                <choose>
+                  <when test="searchCondition != null and searchCondition == 'T'.toString() ">
+                WHERE title LIKE '%'||#{keyword}||'%'
+                  </when>
+                  <when test="searchCondition == 'W'.toString() ">
+                WHERE writer LIKE '%'||#{keyword}||'%'
+                  </when>
+                  <when test="searchCondition == 'TW'.toString() ">
+                WHERE title LIKE '%'||#{keyword}||'%' 
+                   OR writer LIKE '%'||#{keyword}||'%'
+                  </when>
+                </choose>
+                ORDER BY board_no DESC
+                ) a
+          ) b
+    WHERE b.rn > (#{page} - 1) * 5
+    <![CDATA[
+      AND b.rn <= (#{page} * 5)
+    ]]>
+  </select> <!-- CDATA는 '<', '>'를 사용하기 위함 -->
+  <select id="selectOne" parameterType="int">
+  	SELECT board_no, title, content, writer, write_date
+  	FROM   tbl_board
+  	WHERE  board_no = #{boardNo}
+  </select>
+  <select id="selectTotal" parameterType="search" resultType="int">
+    SELECT count(1)
+    FROM   tbl_board
+    <choose>
+      <when test="searchCondition != null and searchCondition == 'T'.toString() ">
+    WHERE title LIKE '%'||#{keyword}||'%'
+      </when>
+      <when test="searchCondition == 'W'.toString() ">
+    WHERE writer LIKE '%'||#{keyword}||'%'
+      </when>
+      <when test="searchCondition == 'TW'.toString() ">
+    WHERE title LIKE '%'||#{keyword}||'%' 
+       OR writer LIKE '%'||#{keyword}||'%'
+      </when>
+    </choose>
   </select>
   <!-- 등록 -->
   <insert id="insertBoard" parameterType="board">
-    insert into tbl_board(board_no, title, content, writer)
-    values(board_seq.nextval, #{title}, #{content}, #{writer})
+    INSERT INTO tbl_board(board_no, title, content, writer)
+    VALUES(board_seq.nextval, #{title}, #{content}, #{writer})
   </insert>
   <!-- 수정 -->
   <update id="updateBoard" parameterType="board">
@@ -27,11 +64,6 @@
     </if>
     WHERE  board_no = #{boardNo} 
   </update>
-  <select id="selectOne" parameterType="int">
-  	SELECT board_no, title, content, writer, write_date
-  	FROM   tbl_board
-  	WHERE  board_no = #{boardNo}
-  </select>
   <!-- 삭제 -->
   <delete id="deleteBoard" parameterType="int">
     DELETE FROM tbl_board

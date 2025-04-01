@@ -30,22 +30,26 @@ public class AddBoardControl implements Control {
 			//셰션(mybaits를 활용해서 JDBC 처리.)
 			try(SqlSession sqlSession = DataSource.getInstence().openSession()) {
 				//.openSession(true); // 하면 자동커밋
-				
+				//System.out.println(req.get);
 				BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
 				BoardVO board = new BoardVO();
-				board.setTitle(title);
+				//board.setTitle(title);
+				//board.setWriter(writer+"("+req.getRemoteAddr()+")");
 				board.setWriter(writer);
 				board.setContent(content);
-				
 				int r = mapper.insertBoard(board);
-				
 				sqlSession.commit(); //커밋
+				sqlSession.close();
+				if (r > 0) {
+					resp.sendRedirect("boardList.do"); //요청재지정.
+					//매개변수 없을 때 사용.
+				} else {
+					System.out.println("에러발생");
+				}
 			} catch (Exception e) {
 				System.out.println("에러발생");
 			}
 			
-			resp.sendRedirect("boardList.do"); //요청재지정.
-			//매개변수 없을 때 사용.
 		}
 	}
 }

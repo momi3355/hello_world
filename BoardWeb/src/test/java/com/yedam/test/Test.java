@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.yedam.common.DataSource;
+import com.yedam.common.SearchDTO;
 import com.yedam.mapper.BoardMapper;
 import com.yedam.vo.BoardVO;
 
@@ -29,7 +30,9 @@ public class Test {
 			} else {
 				System.out.println("삽입실패.");
 			}
-			List<BoardVO> list = boardMapper.selectBoard();
+			SearchDTO search = new SearchDTO();
+			search.setPage(1);
+			List<BoardVO> list = boardMapper.selectBoard(search);
 			for (BoardVO brd : list) {
 				System.out.println(brd.toString());
 			}

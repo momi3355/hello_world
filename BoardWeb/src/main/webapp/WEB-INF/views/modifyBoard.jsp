@@ -2,15 +2,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="includes/header.jsp"/>
-<!-- webapp/WEB-INB/views/board.jsp -->
-<% //request는 요청정보가 있는 내장 객체
+<!-- modifyBoard.jsp -->
+<%
 BoardVO board = (BoardVO)request.getAttribute("board");
 String paging = (String)request.getAttribute("page");
 %>
 
-<h3>상세 페이지</h3>
-<form action="modifyForm.do">
-  <!-- 수정으로 전달하는 값. -->
+<h3>수정 페이지</h3>
+<form action="modifyBoard.do">
   <input type="hidden" name="bno" value="<%=board.getBoardNo() %>"/>
   <input type="hidden" name="page" value="<%=paging %>"/>
 
@@ -21,11 +20,11 @@ String paging = (String)request.getAttribute("page");
      </tr>
      <tr>
        <th>제목</th>
-       <td colspan="3"><%=board.getTitle() %></td>
+       <td colspan="3"><input type="text" name="title" class="form-control" value="<%=board.getTitle() %>"/></td>
      </tr>
      <tr>
        <th>내용</th>
-       <td colspan="3"><textarea class="form-control" cols="25" rows="3" readonly><%=board.getContent() %></textarea></td>
+       <td colspan="3"><textarea name="content" class="form-control" cols="25" rows="3"><%=board.getContent() %></textarea></td>
      </tr>
      <tr>
        <th>작성일지</th>
@@ -33,19 +32,9 @@ String paging = (String)request.getAttribute("page");
      </tr>
      <tr>
        <td colspan="4" align="center">
-         <input type="submit" value="수정" class="btn btn-warning"/>
-         <button type="button" class="btn btn-danger">삭제</button>
+         <input type="submit" value="저장" class="btn btn-primary"/>
        </td>
-      </tr>
+     </tr>
   </table>
 </form>
-<p><a href='boardList.do'>목록이동</a></p>
-<script>
-  //삭제버튼에 이벤트 등록.
-  document.querySelector('button.btn.btn-danger').addEventListener('click', deleteFnc);
-  //삭제함수.
-  function deleteFnc() {
-    location.href = 'deleteForm.do?page=<%=paging %>&bno=<%=board.getBoardNo() %>'; // 삭제화면 -> 삭제처리.
-  }
-</script>
 <jsp:include page="includes/footer.jsp"/>
