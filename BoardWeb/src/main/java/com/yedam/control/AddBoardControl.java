@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -22,21 +23,30 @@ public class AddBoardControl implements Control {
 			req.getRequestDispatcher("/WEB-INF/views/addForm.jsp").forward(req, resp);
 		else if (req.getMethod().equals("POST")) { // post
 			req.setCharacterEncoding("utf-8");
+			HttpSession session = req.getSession();
 			//등록.
 			String title = req.getParameter("title");
 			String writer = req.getParameter("writer");
 			String content = req.getParameter("content");
+			String logId = (String)session.getAttribute("logId");
 			
 			//셰션(mybaits를 활용해서 JDBC 처리.)
 			try(SqlSession sqlSession = DataSource.getInstence().openSession()) {
 				//.openSession(true); // 하면 자동커밋
 				//System.out.println(req.get);
 				BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+				
 				BoardVO board = new BoardVO();
-				//board.setTitle(title);
+				board.setTitle(title);
 				//board.setWriter(writer+"("+req.getRemoteAddr()+")");
-				board.setWriter(writer);
 				board.setContent(content);
+				
+				if (logId == null) { //익명확인
+					board.setWriter("ㅇㅇ");
+				} else {
+					BoardVO userInfo = mapper.selectOne(Integer.parseInt(logId));
+					board.setWriter(userInfo.getWriter());
+				}
 				int r = mapper.insertBoard(board);
 				sqlSession.commit(); //커밋
 				sqlSession.close();

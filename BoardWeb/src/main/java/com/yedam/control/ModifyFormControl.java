@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -28,7 +29,15 @@ public class ModifyFormControl implements Control {
 			
 			req.setAttribute("board", board); //속성 전달
 			req.setAttribute("page", page);
-			req.getRequestDispatcher("/WEB-INF/views/modifyBoard.jsp").forward(req, resp);
+			//권한 체크.
+			HttpSession session = req.getSession();
+			String logId = (String)session.getAttribute("logId");
+			if (logId != null && logId.equals(board.getWriter())) {
+				req.getRequestDispatcher("/WEB-INF/views/modifyBoard.jsp").forward(req, resp);
+			} else {
+				req.setAttribute("msg", "다른사람의 글을 수정할 수 없습니다.");
+				req.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(req, resp);
+			}
 		}
 	}
 

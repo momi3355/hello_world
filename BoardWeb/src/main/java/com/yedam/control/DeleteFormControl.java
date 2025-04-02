@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -28,7 +29,15 @@ public class DeleteFormControl implements Control {
 			
 			req.setAttribute("page", page);
 			req.setAttribute("board", board);
-			req.getRequestDispatcher("/WEB-INF/views/deleteBoard.jsp").forward(req, resp);
+			//권한 체크.
+			HttpSession session = req.getSession();
+			String logId = (String)session.getAttribute("logId");
+			if (logId != null && logId.equals(board.getWriter())) {
+				req.getRequestDispatcher("/WEB-INF/views/deleteBoard.jsp").forward(req, resp);
+			} else {
+				req.setAttribute("msg", "다른사람의 글을 삭제할 수 없습니다.");
+				req.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(req, resp);
+			}
 		}
 	}
 
