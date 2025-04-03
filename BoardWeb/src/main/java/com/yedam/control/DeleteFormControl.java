@@ -33,10 +33,10 @@ public class DeleteFormControl implements Control {
 			HttpSession session = req.getSession();
 			String logId = (String)session.getAttribute("logId");
 			if (logId != null && logId.equals(board.getWriter())) {
-				req.getRequestDispatcher("/WEB-INF/views/deleteBoard.jsp").forward(req, resp);
+				req.getRequestDispatcher("common/deleteBoard.tiles").forward(req, resp);
 			} else {
 				req.setAttribute("msg", "다른사람의 글을 삭제할 수 없습니다.");
-				req.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(req, resp);
+				req.getRequestDispatcher("board.do").forward(req, resp);
 			}
 		}
 	}

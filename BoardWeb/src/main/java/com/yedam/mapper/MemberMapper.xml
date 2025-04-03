@@ -7,9 +7,28 @@
     SELECT user_id memberId,
            user_name memberName,
            password memberPw,
-           responsibility
+           responsibility,
+           images
     FROM   tbl_member
     WHERE  user_id = #{id}
       AND  password = #{pw}
   </select>
+  <select id="selectId" resultType="member">
+    SELECT user_id memberId,
+           user_name memberName
+    FROM   tbl_member
+    WHERE  user_id = #{id}
+  </select>
+  <insert id="insertMember" parameterType="member">
+    INSERT INTO tbl_member(user_id,
+                           user_name,
+                           password,
+                           responsibility,
+                           images)
+    VALUES(#{memberId},
+           #{memberName},
+           #{memberPw},
+           'User',
+           #{images})
+  </insert>
 </mapper>

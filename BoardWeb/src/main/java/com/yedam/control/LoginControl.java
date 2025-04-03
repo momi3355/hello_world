@@ -29,10 +29,18 @@ public class LoginControl implements Control {
 			session.setAttribute("logName", mvo.getMemberName()); //세션객체의 attr에 저장.
 			session.setAttribute("logId", mvo.getMemberId()); //세션객체의 attr에 저장.
 			session.setAttribute("responsibility", mvo.getResponsibility());
+			if (mvo.getImages() != null) {
+				session.setAttribute("img", mvo.getImages()); //이미지
+			}
+			
 			// PHP
 			//session_start();
 			//$_SESSION["logId"] = id;
-			resp.sendRedirect("boardList.do");
+			if (mvo.getResponsibility().equalsIgnoreCase("user")) {
+				resp.sendRedirect("boardList.do");
+			} else if (mvo.getResponsibility().equalsIgnoreCase("admin")) {
+				req.getRequestDispatcher("manager/main.tiles").forward(req, resp);
+			}
 		} else {
 			req.setAttribute("msg", "아이디와 비밀번호를 확인하세요.");
 			req.getRequestDispatcher("WEB-INF/views/loginForm.jsp").forward(req, resp);

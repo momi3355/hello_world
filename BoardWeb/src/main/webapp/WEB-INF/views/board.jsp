@@ -1,7 +1,6 @@
 <%@page import="com.yedam.vo.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="includes/header.jsp"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!-- webapp/WEB-INB/views/board.jsp -->
@@ -60,7 +59,7 @@ if (msg != "") {
       </tr>
   </table>
 </form>
-<p><a href='boardList.do'>목록이동</a></p>
+<p><a href='boardList.do?page=${page}'>목록이동</a></p>
 <script>
   //삭제버튼에 이벤트 등록.
   document.querySelector('button.btn.btn-danger').addEventListener('click', deleteFnc);
@@ -69,4 +68,3 @@ if (msg != "") {
     location.href = 'deleteForm.do?page=${page}&bno=${board.boardNo}'; // 삭제화면 -> 삭제처리.
   }
 </script>
-<jsp:include page="includes/footer.jsp"/>

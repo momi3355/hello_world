@@ -12,7 +12,11 @@ import org.apache.ibatis.session.SqlSession;
 import com.yedam.common.Control;
 import com.yedam.common.DataSource;
 import com.yedam.mapper.BoardMapper;
+import com.yedam.mapper.MemberMapper;
+import com.yedam.service.MemberService;
+import com.yedam.service.MemberServiceImpl;
 import com.yedam.vo.BoardVO;
+import com.yedam.vo.MemberVO;
 
 public class AddBoardControl implements Control {
 	@Override
@@ -20,7 +24,7 @@ public class AddBoardControl implements Control {
 		//url에 직접 입력, 링크 => get방식요청.
 		if (req.getMethod().equals("GET"))
 			// 요청 재지정.
-			req.getRequestDispatcher("/WEB-INF/views/addForm.jsp").forward(req, resp);
+			req.getRequestDispatcher("common/addForm.tiles").forward(req, resp);
 		else if (req.getMethod().equals("POST")) { // post
 			req.setCharacterEncoding("utf-8");
 			HttpSession session = req.getSession();
@@ -44,8 +48,11 @@ public class AddBoardControl implements Control {
 				if (logId == null) { //익명확인
 					board.setWriter("ㅇㅇ");
 				} else {
-					BoardVO userInfo = mapper.selectOne(Integer.parseInt(logId));
-					board.setWriter(userInfo.getWriter());
+					//회원이 있는지 확인
+					MemberService ms = new MemberServiceImpl();
+					if (ms.isMember(logId))
+						board.setWriter(logId);
+					else board.setWriter("ㅇㅇ");
 				}
 				int r = mapper.insertBoard(board);
 				sqlSession.commit(); //커밋
@@ -54,10 +61,11 @@ public class AddBoardControl implements Control {
 					resp.sendRedirect("boardList.do"); //요청재지정.
 					//매개변수 없을 때 사용.
 				} else {
-					System.out.println("에러발생");
+					System.out.println("에러발생:r = 0");
 				}
 			} catch (Exception e) {
 				System.out.println("에러발생");
+				e.printStackTrace();
 			}
 			
 		}

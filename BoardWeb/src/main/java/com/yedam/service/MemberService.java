@@ -6,4 +6,7 @@ import com.yedam.vo.MemberVO;
 public interface MemberService {
 	//로그인 프로세스.
 	MemberVO login(String id, String pw);
+	boolean isMember(String id);
+	//회원가입 프로세스.
+	boolean addMember(MemberVO member);
 }

@@ -16,9 +16,9 @@ public class MainControl implements Control {
 		String logId = (String)session.getAttribute("logId");
 		
 		if (logId == null) {
-			resp.sendRedirect("loginForm.do"); //로그인하세요 깡!
+			resp.sendRedirect("common/loginForm.tiles"); //로그인하세요 깡!
 		} else {
-			resp.sendRedirect("WEB-INF/views/main.jsp"); //환영합니다 낮선자여.
+			resp.sendRedirect("common/main.tiles"); //환영합니다 낮선자여.
 		}
 	}
 }
