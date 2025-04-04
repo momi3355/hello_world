@@ -28,6 +28,11 @@
     <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
   </definition>
   
+  <!-- etc. -->
+  <definition name="WILDCARD:*/*" extends="myapp.common">
+    <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+  </definition>
+  
   <!-- default -->
   <!--<definition name="myapp.homepage" template="/layouts/classic.jsp">
     <put-attribute name="title" value="Tiles tutorial homepage" />

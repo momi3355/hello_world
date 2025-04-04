@@ -15,6 +15,7 @@ import com.yedam.control.BoardControl;
 import com.yedam.control.BoardListControl;
 import com.yedam.control.DeleteBoardControl;
 import com.yedam.control.DeleteFormControl;
+import com.yedam.control.JSControl;
 import com.yedam.control.LoginControl;
 import com.yedam.control.LoginFormControl;
 import com.yedam.control.LogoutControl;
@@ -52,6 +53,9 @@ public class FrontController extends HttpServlet {
 		map.put("/modifyBoard.do", new ModifyBoardControl()); //글수정 처리.
 		map.put("/deleteForm.do", new DeleteFormControl()); //삭제화면.
 		map.put("/deleteBoard.do", new DeleteBoardControl()); //글 삭제처리.
+		
+		/* [etc.] */
+		map.put("/javascript.do", new JSControl());
 	}
 	//service
 	@Override

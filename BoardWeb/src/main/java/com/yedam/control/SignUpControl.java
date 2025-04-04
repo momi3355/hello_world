@@ -20,7 +20,7 @@ public class SignUpControl implements Control {
 		// 1. 회원가입 화면. (GET) WEB-INF/views/signForm.jsp
 		// 2. 회원가입 처리. (POST)
 		if (req.getMethod().equalsIgnoreCase("GET")) { //회원가입 화면으로 이동
-			req.getRequestDispatcher("WEB-INF/views/signForm.jsp").forward(req, resp);
+			req.getRequestDispatcher("common/signForm.tiles").forward(req, resp);
 		} else if (req.getMethod().equalsIgnoreCase("POST")) { //회원가입 처리
 			HttpSession session = req.getSession();
 			session.invalidate(); //일단 세션 제거
