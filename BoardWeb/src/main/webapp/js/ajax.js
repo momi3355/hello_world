@@ -63,7 +63,6 @@ document.querySelector('select#searchGender')
    .addEventListener('change', function(e) {
       let value = e.target.value;
       document.querySelector('tbody#target').innerHTML = ''; //clear();
-      let options = e.target.options;
 	  	dataAry.forEach(element => {
 	      let gender = element.gender;
 
@@ -71,11 +70,15 @@ document.querySelector('select#searchGender')
             let tr = makeRow(element);
             document.querySelector('tbody#target').appendChild(tr);
          } else if (value == 'etc') { //그외
-            let isin = false;
-            for (let i = 0; i < options.length; i++)
-               if (options[i].value == gender)
-                  isin = true;
-            if (!isin) {
+            // let isin = false;
+            // for (let i = 0; i < options.length; i++)
+            //    if (options[i].value == gender)
+            //       isin = true;
+            // if (!isin) {
+            //    let tr = makeRow(element);
+            //    document.querySelector('tbody#target').appendChild(tr);
+            // }
+            if (gender !== "Male" && gender !== "Female") {
                let tr = makeRow(element);
                document.querySelector('tbody#target').appendChild(tr);
             }

@@ -31,6 +31,7 @@ public class BoardControl implements Control {
 			// 3. setter 는 없고, getter 만 존재
 			BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
 			BoardVO board = mapper.selectOne(Integer.parseInt(bno));
+			board.setContent(board.getContent());
 			req.setAttribute("board", board); //요청정보의 '속성' 전달
 			req.setAttribute("page", page);
 			//boardList.do -> jsp 출력 : 페이지 재지정.(요청 재지정)

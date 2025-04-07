@@ -39,11 +39,14 @@ public class AddBoardControl implements Control {
 				//.openSession(true); // 하면 자동커밋
 				//System.out.println(req.get);
 				BoardMapper mapper = sqlSession.getMapper(BoardMapper.class);
+				String address = req.getRemoteAddr();
+				if (address.equals("0:0:0:0:0:0:0:1")) {
+					address = "localHost";
+				}
 				
 				BoardVO board = new BoardVO();
 				board.setTitle(title);
-				//board.setWriter(writer+"("+req.getRemoteAddr()+")");
-				board.setContent(content);
+				board.setContent(content+"\n("+address+")");
 				
 				if (logId == null) { //익명확인
 					board.setWriter("ㅇㅇ");
