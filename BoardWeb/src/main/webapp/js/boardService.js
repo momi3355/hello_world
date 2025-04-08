@@ -3,10 +3,17 @@
  */
 
 const svc = {
-   name: "ReplyService",
+   id: "ReplyService",
    //목록
-   replyList: (bno, successCallback, errorCallback) => {
-      fetch(`replyList.do?bno=${bno}`)
+   replyList: (search = {bno, page}, successCallback, errorCallback) => {
+      fetch(`replyList.do?bno=${search.bno}&page=${search.page}`)
+         .then(result => result.json())
+         .then(successCallback)
+         .catch(errorCallback);
+   },
+   //페이지 계산
+   pagingList: (bno=100, successCallback, errorCallback) => {
+      fetch(`replyCount.do?bno=${bno}`)
          .then(result => result.json())
          .then(successCallback)
          .catch(errorCallback);

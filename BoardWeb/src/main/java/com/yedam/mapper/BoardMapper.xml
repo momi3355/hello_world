@@ -24,11 +24,12 @@
                 ORDER BY board_no DESC
                 ) a
           ) b
+  </select> <!-- CDATA는 '<', '>'를 사용하기 위함 -->
+  <!-- 
     WHERE b.rn > (#{page} - 1) * 5
     <![CDATA[
       AND b.rn <= (#{page} * 5)
-    ]]>
-  </select> <!-- CDATA는 '<', '>'를 사용하기 위함 -->
+    ]]> -->
   <select id="selectOne" parameterType="int">
   	SELECT board_no, title, content, writer, write_date
   	FROM   tbl_board

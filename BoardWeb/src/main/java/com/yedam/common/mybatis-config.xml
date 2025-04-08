@@ -5,6 +5,7 @@
 <configuration>
   <settings>
     <setting name="mapUnderscoreToCamelCase" value="true"/> <!-- board_no 를 boardNo로 변경 -->
+    <setting name="jdbcTypeForNull" value="NULL"/>          <!-- 아무값이 없으면 NULL값을 삽입 -->
   </settings>
   <typeAliases>
     <typeAlias alias="search" type="com.yedam.common.SearchDTO"/>

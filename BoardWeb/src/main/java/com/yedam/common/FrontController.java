@@ -24,7 +24,9 @@ import com.yedam.control.MainControl;
 import com.yedam.control.ModifyBoardControl;
 import com.yedam.control.ModifyFormControl;
 import com.yedam.control.RemoveReplyControl;
+import com.yedam.control.ReplyCountControl;
 import com.yedam.control.ReplyListControl;
+import com.yedam.control.ReplyListDataTable;
 import com.yedam.control.SignUpControl;
 
 //*.do의 요청에 실행
@@ -59,8 +61,11 @@ public class FrontController extends HttpServlet {
 		
 		/* [댓글] */
 		map.put("/replyList.do", new ReplyListControl()); //댓글데이터.
+		map.put("/replyListDataTable.do", new ReplyListDataTable()); //데이터테이블을 사용한.
 		map.put("/addReply.do", new AddReplyControl()); //댓글추가.
 		map.put("/removeReply.do", new RemoveReplyControl()); //댓글삭제.
+		map.put("/replyCount.do", new ReplyCountControl()); //댓글수.
+		
 		
 		/* [etc.] */
 		map.put("/javascript.do", new JSControl());

@@ -48,8 +48,11 @@ public class SignUpControl implements Control {
 			String userPw = mr.getParameter("userPw");
 			String userImg = mr.getFilesystemName("userImg");
 			//파일이름이 같으면 파일명이 바뀌기 때문에 바뀐 파일명.
-			if (userImg == null)
-				userImg = ""; //없으면 공백
+			//if (userImg == null)
+			//	userImg = ""; //없으면 공백
+			//mybatis-config.xml에서
+			//<setting name="jdbcTypeForNull" value="true"/>를
+			//해줬기 때문에 공백을 넣지 않아도 된다.
 			
 			MemberVO member = new MemberVO();
 			member.setMemberId(userId);

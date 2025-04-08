@@ -89,6 +89,11 @@ div.reply li {
     </ul>
   </div>
   <!-- 페이징 -->
+  <nav aria-label="...">
+    <ul class="pagination pagination-sm justify-content-center">
+      
+    </ul>
+  </nav>
 </div>
 
 <p><a href='boardList.do?page=${page}'>목록이동</a></p>
@@ -102,5 +107,7 @@ div.reply li {
     location.href = `deleteForm.do?page=${page}&bno=${board.boardNo}`; // 삭제화면 -> 삭제처리.
   }
 </script>
+<!--
 <script src="js/boardService.js"></script>
-<script src="js/board1.js"></script>
+<script src="js/board1.js"></script> -->
+<script src="js/board2.js"></script>

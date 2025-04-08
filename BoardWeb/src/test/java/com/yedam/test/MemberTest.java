@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.yedam.common.DataSource;
+import com.yedam.common.SearchDTO;
 import com.yedam.mapper.ReplyMapper;
 import com.yedam.service.MemberService;
 import com.yedam.service.MemberServiceImpl;
@@ -32,8 +33,9 @@ public class MemberTest {
 		//if (cnt > 0) {
 		//	System.out.println("삭제성공");
 		//}
-		
-		List<ReplyVO> list = mapper.selectList(100); //100번 댓글.
+		SearchDTO search = new SearchDTO();
+		search.setBoardNo(100);
+		List<ReplyVO> list = mapper.selectList(search); //100번 댓글.
 		
 		for (ReplyVO reply : list) {
 			System.out.println(reply);
