@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--int insertEvent(CalendarVO cal);
+	int deleteEvent(CalendarVO cal);
+	Map<String, String> selectEvent(); -->
+<mapper namespace="com.yedam.calendar.mapper.CalendarMapper">
+  <select id="selectEvent" resultType="map">
+    SELECT title,
+           start_date,
+           end_date
+    FROM   tbl_event
+  </select>
+  <select id="existEvent" parameterType="calendar">
+    SELECT title,
+           start_date,
+           end_date
+    FROM   tbl_event
+    WHERE  title = #{title}
+      AND  start_date = #{startDate}
+      AND  end_date = #{endDate}
+  </select>
+  <insert id="insertEvent" parameterType="calendar">
+    INSERT INTO tbl_event (title,
+                           start_date,
+                           end_date)
+    VALUES (#{title},
+            #{startDate},
+            #{endDate})
+  </insert>
+  <delete id="deleteEvent" parameterType="calendar">
+    DELETE FROM tbl_event
+    WHERE  title = #{title}
+      AND  start_date = #{startDate}
+      AND  end_date = #{endDate}
+  </delete>	
+</mapper>

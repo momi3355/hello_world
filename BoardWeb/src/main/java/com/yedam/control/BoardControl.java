@@ -35,7 +35,8 @@ public class BoardControl implements Control {
 			req.setAttribute("board", board); //요청정보의 '속성' 전달
 			req.setAttribute("page", page);
 			//boardList.do -> jsp 출력 : 페이지 재지정.(요청 재지정)
-			req.getRequestDispatcher("common/board.tiles").forward(req, resp);
+			//req.getRequestDispatcher("common/board.tiles").forward(req, resp);
+			req.getRequestDispatcher("common/board2.tiles").forward(req, resp);
 			
 			sqlSession.close();
 		}

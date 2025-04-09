@@ -1,4 +1,4 @@
-package com.yedam.control;
+package com.yedam.control.ajax;
 
 import java.io.IOException;
 

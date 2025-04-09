@@ -1,0 +1,49 @@
+package com.yedam.calendar.control;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.yedam.calendar.CalendarDate;
+import com.yedam.calendar.CalendarVO;
+import com.yedam.calendar.service.EventService;
+import com.yedam.calendar.service.EventServiceImpl;
+import com.yedam.common.Control;
+
+public class AddEventControl implements Control {
+	@Override
+	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("text/json;charset=utf-8");
+		SimpleDateFormat sd = CalendarDate.simpleDate;
+		SimpleDateFormat dd = CalendarDate.defaultDate;
+		String title = req.getParameter("title");
+		String start = req.getParameter("start");
+		String end = req.getParameter("end");
+			
+		CalendarVO cvo = new CalendarVO();
+		cvo.setTitle(title);
+		cvo.setStartDate(start);
+		cvo.setEndDate(end);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		EventService esv = new EventServiceImpl();
+		if (esv.addEvent(cvo)) {
+			map.put("retCode", "OK");
+			map.put("retVal", cvo);
+		} else {
+			map.put("retCode", "NG");
+		}
+
+		Gson gson = new GsonBuilder().create();
+		resp.getWriter().print(gson.toJson(map));
+	}
+}

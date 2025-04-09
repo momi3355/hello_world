@@ -1,4 +1,4 @@
-package com.yedam.control;
+package com.yedam.control.form;
 
 import java.io.IOException;
 

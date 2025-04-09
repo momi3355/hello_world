@@ -1,4 +1,4 @@
-package com.yedam.control;
+package com.yedam.control.ajax;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class ReplyListDataTable implements Control {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("data", list);
 		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(result);
 		resp.getWriter().print(json);
 	}

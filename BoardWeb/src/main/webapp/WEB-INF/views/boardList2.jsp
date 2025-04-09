@@ -60,6 +60,8 @@
     </tbody>
   </table>
   <script>
-    new DataTable('#table');
+    new DataTable('#table', {
+    	order: [[0, 'desc']]
+    });
   </script>
 </form>

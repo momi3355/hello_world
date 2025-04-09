@@ -1,6 +1,7 @@
-package com.yedam.control;
+package com.yedam.control.ajax;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class AddReplyControl implements Control {
 		rvo.setBoardNo(Integer.parseInt(bno));
 		rvo.setReplyer(replyer);
 		rvo.setReply(reply);
+		rvo.setReplyDate(new Date());
 		
 		Gson gson = new GsonBuilder().create();
 		Map<String, Object> map = new HashMap<>();
@@ -40,7 +42,7 @@ public class AddReplyControl implements Control {
 		} else {
 			// {"retCode": "NG"};
 			//resp.getWriter().print("{\"retCode\": \"NG\"}");
-			map.put("retCode", "NG");
+			map.put("retCode", "NG"); //no good
 		}
 		String json = gson.toJson(map);
 		resp.getWriter().print(json);
