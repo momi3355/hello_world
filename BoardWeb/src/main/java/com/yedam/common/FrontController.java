@@ -23,10 +23,12 @@ import com.yedam.control.LogoutControl;
 import com.yedam.control.ModifyBoardControl;
 import com.yedam.control.SignUpControl;
 import com.yedam.control.ajax.AddReplyControl;
+import com.yedam.control.ajax.ChartJsonControl;
 import com.yedam.control.ajax.RemoveReplyControl;
 import com.yedam.control.ajax.ReplyCountControl;
 import com.yedam.control.ajax.ReplyListControl;
 import com.yedam.control.ajax.ReplyListDataTable;
+import com.yedam.control.form.ChartControl;
 import com.yedam.control.form.DeleteFormControl;
 import com.yedam.control.form.EventFormControl;
 import com.yedam.control.form.JSControl;
@@ -75,12 +77,16 @@ public class FrontController extends HttpServlet {
 		/* [etc.] */
 		map.put("/javascript.do", new JSControl());       //자바스크립트 연습
 		map.put("/eventForm.do", new EventFormControl()); //캘린더 이벤트 연습
+		map.put("/chart.do", new ChartControl());         //차트 연습
 		
 		/* [캘린더] */
 		map.put("/addEvent.do", new AddEventControl());
 		map.put("/eventList.do", new EventListControl());
 		map.put("/existEvent.do", new ExistEventControl());
 		map.put("/removeEvent.do", new RemoveEventControl());
+		
+		/* [차트] */
+		map.put("/chartJson.do", new ChartJsonControl());
 	}
 	//service
 	@Override

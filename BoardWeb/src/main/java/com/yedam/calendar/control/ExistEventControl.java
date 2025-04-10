@@ -18,6 +18,7 @@ import com.yedam.common.Control;
 public class ExistEventControl implements Control {
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/json;charset=utf-8");
 		String title = req.getParameter("title");
 		String start = req.getParameter("start");

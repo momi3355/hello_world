@@ -26,19 +26,19 @@ console.log(obj[2].last_name);
 
 //한건 데이터를 매개값으로 tr을 생성하는 함수.
 function makeRow(emp = { id, first_name, last_name, email, gender, salary }) {
-   const fields = ['id', 'first_name', 'last_name', 'email'];
-   let tr = document.createElement('tr'); //<tr></tr>
-   for (let i = 0; i < fields.length; i++) {
-      let td = document.createElement('td'); //<td></td>
-      td.innerHTML = emp[fields[i]];
-      tr.appendChild(td); //tr<td
-   }
-   return tr;
+  const fields = ["id", "first_name", "last_name", "email"];
+  let tr = document.createElement("tr"); //<tr></tr>
+  for (let i = 0; i < fields.length; i++) {
+    let td = document.createElement("td"); //<td></td>
+    td.innerHTML = emp[fields[i]];
+    tr.appendChild(td); //tr<td
+  }
+  return tr;
 }
 
 //console.log(makeRow(obj[0]).innerHTML);
 //화면출력
-obj.forEach((item,  idx, ary) => {
-   let tr = makeRow(item);
-   document.querySelector('tbody#target').appendChild(tr);
+obj.forEach((item, idx, ary) => {
+  let tr = makeRow(item);
+  document.querySelector("tbody#target").appendChild(tr);
 });

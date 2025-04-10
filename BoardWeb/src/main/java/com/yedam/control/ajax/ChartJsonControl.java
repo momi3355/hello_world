@@ -1,4 +1,4 @@
-package com.yedam.calendar.control;
+package com.yedam.control.ajax;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,21 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.yedam.calendar.service.EventService;
-import com.yedam.calendar.service.EventServiceImpl;
 import com.yedam.common.Control;
+import com.yedam.service.BoardService;
+import com.yedam.service.BoardServiceImpl;
 
-public class EventListControl implements Control {
+public class ChartJsonControl implements Control {
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/json;charset=utf-8");
-		EventService esv = new EventServiceImpl();
-		List<Map<String, Object>> list = esv.getEvent();
-		if (!list.isEmpty()) {
-			Gson gson = new GsonBuilder().create();
-			resp.getWriter().print(gson.toJson(list));
-		} else {
-			resp.getWriter().print("[]"); //비여있음
-		}
+		BoardService bsv = new BoardServiceImpl();
+		List<Map<String, Object>> list = bsv.cntPerWriter();
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		resp.getWriter().print(gson.toJson(list));
 	}
 }
