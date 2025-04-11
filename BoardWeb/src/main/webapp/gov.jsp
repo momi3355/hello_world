@@ -6,6 +6,28 @@ pageEncoding="UTF-8"%>
     <meta charset="UTF-8" />
     <title>Insert title here</title>
     <link rel="stylesheet" href="css/common-styles.css" />
+    <style>
+      #centerList tr:hover {
+        background-color: aquamarine;
+        cursor: pointer;
+      }
+
+      #list {
+        list-style: none;
+      }
+      #list li {
+        width: 200px;
+        display: block;
+        padding: 5px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+      #list .phone {
+        background-color: rgb(109, 110, 19);
+        color: #fe0;
+      }
+    </style>
   </head>
   <body>
     <div class="sido">
@@ -24,6 +46,8 @@ pageEncoding="UTF-8"%>
       <tbody id="centerList"></tbody>
     </table>
 
+    <ul id="list"></ul>
+
     <script>
       let url =
         "https://api.odcloud.kr/api/15077586/v1/centers?page=1&perPage=284&returnType=json&serviceKey=yFGkTGadJdPRiIaJd2%2FZCghr5d%2BqSQc5p7XsAi%2B3VJfcLEJWuQ4zQ94vJYBum8SJ5K3dku%2B0fUkx17C%2FFzwHPg%3D%3D";
@@ -31,7 +55,7 @@ pageEncoding="UTF-8"%>
       fetch(url)
         .then((result) => result.json())
         .then((result) => {
-          console.log(result.data);
+          //console.log(result.data);
           centerList = result.data; //센터 전체
           let sidoAry = []; //284건의 센터정보.
           centerList.forEach((center) => {
@@ -61,11 +85,12 @@ pageEncoding="UTF-8"%>
         .querySelector("#choice")
         .addEventListener("change", function (e) {
           //console.log(this);
-          let val = this.value;
+          let val = this.value; //사용자가 선택한값.
           document.querySelector("#centerList").innerHTML = ""; //목록지우기.
           centerList
-            .filter((center) => center.sido == val) //시도같은거
+            .filter((center) => center.sido == val) //시도가 같은
             .forEach((center, idx) => {
+              //필터에서 나온 리스트
               // 리스트 업데이트
               let tr = makeCenter(center);
               document.querySelector("#centerList").appendChild(tr);
@@ -101,5 +126,6 @@ pageEncoding="UTF-8"%>
         );
       }
     </script>
+    <script src="js/array2.js"></script>
   </body>
 </html>

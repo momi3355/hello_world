@@ -41,7 +41,9 @@ public class FilterOne implements Filter {
 		
 		//로그저장
 		BoardService bsv = new BoardServiceImpl();
-		bsv.logCreate(map);
+		if (!map.get("page").contains("images")) {
+			bsv.logCreate(map);
+		}
 		
 		if (ip.equals("192.168.0.38")) {
 			//비난처 홈페이지.
